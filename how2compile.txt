@@ -1,0 +1,31 @@
+HOW TO COMPILE ZIPMAX (Visual Studio 2026)
+==========================================
+
+YOU NEED:
+- Visual Studio 2026 with the workload "Desktop development with C++" and the
+  individual component "C++ MFC for latest v14x build tools (x86 & x64)".
+  (ZipMax is a Unicode MFC application: file names in any language, e.g.
+  Japanese, are supported.)
+
+THINGS TO DO:
+1) Open ZipMax.sln.
+2) Choose a configuration:
+     Debug / Release          -> ZipMax.exe uses 7z.dll at run time
+     Release Static           -> the 7-Zip ZIP code is linked into ZipMax.exe
+                                 (no 7z.dll needed)
+   and a platform (x64 or Win32).
+3) Build -> Build Solution.
+   The result is in build\<platform>\<configuration>\ZipMax.exe
+
+The 7-Zip 26.04 sources needed by the build are already included in the "7zip"
+folder. To use another copy of the 7-Zip sources, pass
+/p:SevenZipDir=<folder that contains C and CPP>\ to MSBuild.
+
+TO RUN:
+- The build copies the "language" folder (and zipmax.ini, if missing) next to
+  ZipMax.exe. Choose the language in zipmax.ini:  language = Portugues-Brasil
+- "Debug"/"Release": also copy 7z.dll (x64 or x86, same as ZipMax.exe) next to
+  ZipMax.exe, or install 7-Zip (the default install folder is searched), or set
+  sevenzip-dll in zipmax.ini.
+- The external packer (7za.exe by default) must still be reachable through the
+  PATH or the ini file, as before.

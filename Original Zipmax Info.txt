@@ -1,0 +1,530 @@
+ZIPMAX 0.51
+
+(C) 2002-2005 BY ROMAN SCHERZER
+clrmame@clrmame.com, http://www.clrmame.com
+
+THIS PROGRAM IS FREEWARE. THE SOURCE IS FREELY AVAILABLE.
+
+For zipsupport ZipMax uses the 7-Zip engine by Igor Pavlov (http://www.7-zip.org/):
+either the 7z.dll next to ZipMax.exe or, in the "Release Static" build, the 7-Zip
+ZIP code linked into ZipMax.exe itself (the old ZipArchive library is no longer
+needed). It also runs several external packer executables (e.g. 7-zip package
+available at http://www.7-zip.com/. You can change that behaviour by changing the
+zipmax.ini file which is part of this package. Read the documentation/EULAs of the
+external packers before you add them in the ini file.
+
+
+
+What is ZipMax ?
+================
+
+It's a tiny little program which rezips dropped zipfiles. It works like this:
+
+- drop a zipfile
+
+- ZipMax unzips it to "<ZipMax Path>\_unzip"
+
+- ZipMax compresses the files with the internal 7-Zip Deflate encoder at its
+  maximum settings (normally better than common zipprograms). The temporary
+  zipfile will be stored in "<ZipMax Path>\_intern"
+
+- ZipMax compresses the files with the external packer program(s). The temporary
+  zipfile will be stored in "<ZipMax Path>\_ext_X" (where X is a number from
+  1 to 99...depends on the number of used external packers).
+
+- ZipMax compares the sizes of each single file and creates a new one with a
+  mixture of the smalles files from the old and the new archives. If the new
+  one is smaller, it replaces the old one with it. If the new file isn't
+  smaller the old file won't be touched.
+
+- Any modified file will have a +a file attribute (while date/time will be the
+  old one)
+
+You can of course drag&drop more than one zipfile at a time.
+
+
+
+WARNING:
+========
+
+YOU'RE USING THIS PROGRAM ON YOUR VERY OWN RISK. BE AWARE THAT YOUR ORIGINAL
+ZIPFILES MAY BE REPLACED. I'M NOT RESPONSIBLE FOR ANY KIND OF DATA LOSS/DATA
+CORRUPTION WHICH MAY BE CAUSED BY USING THIS PROGRAM.
+
+DON'T PUT ANYTHING IN THE "<ZIPMAX PATH>\_UNZIP", <ZIPMAX PATH>\_EXT_X" OR
+<ZIPMAX PATH>\_INTERN" FOLDERS (IF YOU'RE ABLE TO SEE THEM). THEY WILL BE
+EMPTIED FROM TIME TO TIME !!!
+
+THIS PROGRAM IS IN A VERY EARLY STAGE. HANDLE WITH CARE AND BACKUP YOUR FILES
+FIRST.
+
+ZIPMAX RECREATES THE SOURCEFILE(S) WITHOUT: DATADESCRIPTORS, COMMENTS,
+EXTRAFIELDS, PURE SUBFOLDERENTRIES, DIGITAL SIGNATURES.
+
+IT ONLY ACCEPTS NON-DISK-SPANNING ZIPS.
+
+DON'T LET OTHER PROGRAMS ACCESS THE ZIPFILES WHILE WORKING WITH ZIPMAX.
+
+BE SURE THAT YOUR COMMANDLINE PARAMETERS ARE OK ! DON'T FORGET THAT SOME
+PACKERS NEED A "%2.*" ENTRY TO WORK CORRECTLY !
+
+
+
+What do I need ?
+================
+
+- You need an external packprogram like "7za.exe" file which is part of
+  the 7zip package available at www.7-zip.com. This executable has to be
+  available through the %PATH%   environment variable. You can change the
+  name and path of the packer executable in the zipmax.ini file
+
+- diskspace !!! Don't forget that you need (a lot) free diskspace. ZipMax
+  decompresses the full archive and keeps sevaral copies of the zipfile on the
+  harddisk. Not enough diskspace will cause errors.
+
+- time !!! Depending on the size and the amount of zipfiles you need time.
+  ZipMax compresses with the highest compressionlevel and that can take time.
+  Don't be confused by a not reacting mainwindow. This happens when the CPU
+  is working at 100%.
+
+
+
+Ok..How do I use it ?
+=====================
+
+Simply drop zipfiles in the mainwindow. If you're dropping folders you should
+enable the work-recursive option in zipmax.ini. Otherwise possible zipfiles in
+these folders won't be recognized.
+
+The mainwindow will show a progresswindow. You can stop the process by pressing
+the CANCEL button. When the CPU is working at 100% it may take some time until
+that button reacts on your request.
+
+You'll see a list with the filenames, the gained bytes and a status field.
+
+The little "light" in front of each name means this:
+
+"red"   - an error occured
+"green" - file was rezipped successfully
+"yellow" - no bytes gained
+
+
+If the logfile option is enabled (see zipmax.ini), ZipMax attaches information
+about what was done and a bit of statistic to the logfile.
+
+It also lists the singe zipentries and an ID which specifies the program which
+reached the highest compression.
+
+The ID can be INT (for internal zip), ORG (for original zipfile) and 01-99
+for the external zippers.
+
+For example:
+
+zipmaxdlg.cpp  -->  ORG 01 02
+
+means that the original file and external packers 1 and 2 reached the highest
+compressionrate for that file.
+
+
+
+Questions And Answers
+=====================
+
+Why is the estimated time remain so damn unstable ?
+
+    Because it's calculated with the values of the already done/passed
+    datasize/time and the remaining compressed datasize. Instead of working
+    with the uncompressed sizes. To get the uncompressed sizes zipmax has
+    to scan all zips first...and that would take too much time...wouldn't it ?
+
+
+Can I get even higher rates ?
+
+    Yes. Simply check out more external packers and add entries to the zipmax.ini.
+
+
+The statusfield shows "ERROR"..what did I do wrong ?
+
+    This happens when:
+    - corrupt zipfile found or unable to unzip the files
+    - the packer exe reported errors
+    - compression failed
+    - not enough free diskspace (most common)
+    - source file is readonly (and can't be made writeable)
+    - couldn't execute the packer exe (common) (check zipmax.ini
+      and your packer)
+    - source file is a disk-spanning zip
+    - cleaning the temporary folders failed
+
+    It can help that you rezip the zipfile by hand with a common zipprogram.
+    Unzip the files, delete the old zip, zip the files to a new archive.
+    Should help if you have non-standard zipfiles.
+
+
+Can I pause the process ?
+
+    Simply click on the [x] close window button. A messagebox will appear if
+    the zipprocess is active. As long as this messagebox is shown, the process
+    is paused.
+
+
+It says "No or invalid zipmax.ini"
+
+    You need a zipmax.ini file. See below. A default one should be part of
+    the package.
+
+
+It freezes/doesn't react ?
+
+    Wait. Guess it's only zipping files which may take long. Of course there's
+    a small possibility that it freezes when the external packer crashes/hangs.
+
+
+I try to close the mainwindow and it doesn't react ?
+
+    When a zipping process is still active, you have to wait till that file is
+    finished. After that you can close the window normally.
+
+
+The window appear at a weird position or has weird sizes !
+
+    Delete the registrykey: HKEY_CURRENT_USER\Software\ZipMax
+
+
+7z ? Hey...I want zip files !
+
+    Don't be confused. ZipMax creates 100% standard zipfiles. It calls 7za.exe
+    with the parameters. 7za.exe a -mx -r -y -tzip. You can change the
+    parameter in the zipmax.ini !
+
+
+Why does it compress so many times (internal and external) ?
+
+    Zipmax searches the best compressed single file inside the old and the new
+    archives. The internal zip routine can gain some bytes (esp. for
+    small files) over the external. You can disable the intern compression by
+    setting the skip-internzip flag in zipmax.ini.
+
+
+My zip files processed with 7zip cannot be opened by Mame or other archivers?
+
+    If you are using a recent version of the 7-zip archiver, you must disable
+    the "Deflate-64" or "BZip2" options of the archiver that usually is picked
+    as it is smaller than standard Deflate.  Note that WinZip 9 Beta also
+    implements Deflate-64 functionality, making zips created with it incompatable
+    with WinZip 8 and most other archivers.
+
+    To ensure Deflate-64 or BZip2 is not used (and only standard Deflate), add
+    the following flag to the 7za.exe command line options:
+
+    -mm=Deflate 
+
+
+How can I use multiple computers to process a bunch of files without manually
+separating chunks of work or having them process the same file more than once?
+
+    Zipmax version .51 introduced 3 new zipmax.ini file settings: SkipReadOnly,
+    SkipArchive and SetCurrentReadOnly.  By setting these all to 1, you will
+    be able to point 2 or more machines at the same list of files from a network
+    share and not have to worry about separating them or duplicated processing.
+
+    How to use it:
+    ==============
+    1) Mark all of your zip files NON read only and NON archive ready.
+
+    In Windows Explorer, simply highlight all the files and/or folder(s), right
+    click, choose properties, clear the Attributes: Read Only checkbox. Click
+    the Advanced button and clear the "File is ready for archiving" checkbox.
+    Click OK and OK.
+
+    From Dos, simply cd into the folder containing the files, and type:
+
+    attrib -r -a *.zip
+
+    You may use the /s flag to also change the attributes of files in subfolders.
+
+
+    2) Set the ini file settings (SkipReadOnly, SkipArchive, SetCurrentReadOnly)
+    to 1 and relaunch ZipMax.
+
+    3) On the first machine, drag and drop all the files/folder(s) to be
+    processed into ZipMax.
+
+    4) On the second (or more) machine(s), from the same folder over a network,
+    drag and drop the same list of files/folder(s) to be processed onto a separate
+    copy of ZipMax on each machine.
+
+    5) That's all. As the files are processed, those that are already being
+    worked on by one machine are tagged ReadOnly, and therefore will be skipped
+    on all other machines. Also, those files already completed by a machine will
+    be tagged with the Archive attribute and subsequently skipped on other machines.
+
+    By using the zipmax.ini flags, this ensures the same file is not processed
+    more than once by any machine, wasting time.
+
+
+    Special notes:
+    ==============
+    Rather than dragging and dropping an entire folder (which sorts the same
+    on every system) you select the files and choose to drop from large to small
+    on the FASTEST processor system (or the main system not going over a network)
+    and from small to large on the slower or networked system.
+
+    This will ensure those files that are the largest can finish faster on a fast
+    system or less data needs to be transmitted over a network (e.g. especially
+    if you are using wireless). 
+
+    It also reduces the chance for collision.  Athough one system will skip files
+    already marked A or R, exact timing could cause both systems to grab the file
+    before changing the status to read only and both work on it, with the faster
+    one updating it and the slower one receiving an error when attempting to
+    replace the original zip (now changed by the other system). Tests show only
+    limited < .5% Error collision on identical ordered lists. Changing the orders
+    could limit potential collission to 1 total no matter how large the list is.
+    Please note: Even though one system reports an error (not skip), the other
+    system will succeed and the file will be compressed and archive bit set.
+
+    You must have a separate copy of the zipmax.exe and zipmax.ini (and all
+    required archivers) on each machine IF you plan to write to a log file,
+    otherwise you can point to the same folder on the main machine)
+
+
+zipmax.ini
+==========
+
+    You can use a standard texteditor to change zipmax.ini. In that ini file
+    you specify:
+
+    packer-exe-n       = the name (and path) to your packer
+                         (where the last "n" can be "1" - "99" for multiple
+                         entries) (like packer-exe-1 = z7a.exe)
+
+    packer-cmd-n       = the commandline. This entry needs to have a %1 and
+                         %2 entry where %1 will be replaced later with the
+                         full archivename and %2 will always be replaced with
+                         "*", the full filelist. Your packer executable has to
+                         support that. You should also add an option to
+                         recursive folders and a "yes on all queries" option.
+                         (where the last "n" can be "1" - "99" for multiple
+                         entries, like packer-cmd-1 = a -mx -r -y -tzip %1 %2)
+
+
+    work-recursively   = 1 or 0. Set it to 1 if you want to scan subfolders
+                         recursively for zipfiles.
+
+    language           = English (default), Portugues-Brasil or auto (= the language
+                         of Windows). The texts are read from language\<name>.lng
+                         (UTF-8). To add a language, copy English.lng, translate it
+                         and use its file name (without .lng) here. Lines missing in
+                         a language file fall back to the built-in English text.
+    sevenzip-dll       = (optional) full path of the 7z.dll to use for the internal
+                         zip work. If it is missing ZipMax looks for 7z.dll in its own
+                         folder, then in the PATH, then in C:\Program Files\7-Zip.
+                         Ignored by the "Release Static" build (no DLL needed).
+                         The DLL must have the same bitness as ZipMax.exe (x86/x64).
+
+    skip-internzip     = 1 or 0. Set it to 1 if the internal 7-Zip zip process
+                         should be skipped
+
+    logfile            = 1 or 0. Set it to 1 and ZipMax will create a logfile
+                         (zipmax.log) and logs all events.
+
+    thread-priority    = With that option you can set the thread priority.
+                         Possible values are: time_critical, highest,
+                         above_normal, normal, below_normal, lowest, idle.
+                         The defaultvalue is normal.
+
+    finalstep-exe      = the name (and path) of an additional tool which can
+                         be called after the zipoperation of each individual
+                         file has ended. You can use tools which do some
+                         optimizing prework on the files.
+
+    finalstep-cmd      = the commandline of the upper tool. %1 and %2 as
+                         mentioned above.
+
+    nobeep             = 1 or 0. Set it to 1 if you don't want to hear the beeps
+                         when zipmax finished its job
+
+    setcurrenttime     = 1 or 0. Setting this to 1 won't preseve date/timestamp
+                         of the zipfile and sets it to the current date/time.
+
+    showpackerwindow   = 1 or 0. Set this to 1 if you want to see the
+                         shellwindows of the external packers.
+
+    skipreadonly       = 1 or 0. Set it to 1 if you want files marked read only
+                         (R bit set) to be skipped
+
+    skiparchive        = 1 or 0. Set it to 1 if you want files marked for archive
+                         (A bit set) to be skipped
+
+    setcurrentreadonly = 1 or 0. Set it to 1 if you want files that are being
+                         processed to be set to read only. Note: files will revert
+                         to non-readonly when completed even with 0 byte change
+
+
+
+    It's a simple textfile which has to start with a line: [ZIPMAX]. "//" can
+    be used as quotes (like in C++)
+
+
+    ZIPMAX.INI IS ONLY PARSED WHEN YOU START ZIPMAX ! WHEN YOU CHANGE ANYTHING
+    YOU HAVE TO RESTART ZIPMAX !
+
+
+
+Future Plans
+============
+
+Here some things which may be included in future releases of ZipMax:
+
+- file database for already compressed files
+
+
+
+
+People who have modified the source and added cool things
+=========================================================
+
+Ben Jos Walbeehm <walbeehm@walbeehm.com>
+
+        - countless other stuff ;)
+        - added support for multiple packer exes/commandlines (up to 99 now)
+          (+ some other zipinternal stuff)
+        - column sorting
+        - red/green/yellow icon in list
+        - logfile statistical additions
+        - several fixes
+
+
+Patrice LE COQ <patlecoq@hotmail.com>
+
+   - added support for commandline parsing
+     (Windows' SendTo/drag&drop on shortcut)
+   - added support for percentage of saved bytes display
+
+
+<Dirus@Programmer.net>
+
+    - replaced atom with mutex
+
+
+Bill Frandsen <bffargo@yahoo.com>
+
+    - provided simple multi-machine networkable concurrent processing
+
+
+
+Latest Changes
+==============
+
+0.51 (25-Jul-2005)
+
+- compiled with latest zipclass library (incl. zlib 1.2.3)
+- misc minor changes
+- added skipreadonly, skiparchive, setcurrentreadonly flags to zipmax.ini
+        to enable multi-machine networkable concurrent processing
+
+
+0.5 (27-Jan-2004)
+
+- compiled with latest ziparchive library
+- patched ziparchiveclass with fastinflate fix and flushfile exception fix
+- added pausebutton
+- added option nobeep = 0|1 (default 0), disable/enable beep when finished job
+- added setcurrenttime = 0|1 (default 0), (don't)/update date/timestamp for
+        finished zipfile
+- added showpackerwindow = 0|1 (default 0), hide|show shellwindow of the
+        external packers and post-programs like deflopt
+
+
+0.41 (27-Jun-2003)
+
+ - compiled with MS Visual C++ 2003
+ - compiled with latest ZipArchive library (fixes some rare unzip problems)
+ - remove OLE Win95 workaround because it was fixed by MS
+ - increased buffersize for WriteLFH to 8 MB
+ - some minor source cleanup
+
+ - Ben Jos Walbeehm (walbeehm@walbeehm.com) added:
+
+    - increased the number to 999 possible external packers
+    - improved initialization of external packers
+    - added finalstep-exe and finalstep-cmd to the .ini file.
+      with these you can run additional tools (e.g. Ben's DeflOpt program)
+      to gain even higher compressionrates
+
+
+
+0.40 (08-Nov-2002)
+
+ - switched to MS Visual C++ 7
+ - some code changes due to compiler change
+ - used latest zip core
+
+ - Ben Jos Walbeehm added:
+
+     - column sorting
+     - red/green/yellow icons to show "Error / OK / 0 Bytes gained"
+     - some internal fixes
+     - statistical output to the logfile which packer did the best job
+     - new entries will be attached to the logfile
+
+
+0.37
+
+ - fixed wrong logfile string
+ - fixed some wrong if-then-else brackets
+ - any touched zipfile will be set +a (easier to see which files are done)
+ - maximal number of external packers set to 99 (Ben Jos Walbeehm)
+ - global atom was replaced with a mutex (Dirus@Programmer.net)
+ - ...but mutex was directly replaced by FindWindow (sorry Dirus) :O)
+
+
+0.360/0.361/0.362
+
+ - compiled with updated zipclass (0.362)
+ - fixed restart check (global atom was disabled) (0.362)
+ - fixed negative percentage problem (0.362)
+ - multiple packer/commandline support
+ - compiled with updated zipclass (fixes bad time/date problems)
+ - several minor code changes (e.g. fixed seconds display)
+ - minor sourcecode clean up (0.361)
+
+
+0.351
+
+ - new zlib core 1.1.4
+ - parsing commandline (so dropping on shortcuts or using Window's SendTo works)
+
+
+0.333
+
+ - fix for writeprotected zipfolders
+
+0.331/2
+
+ - fix for est. remaining time
+
+0.330
+
+ - major source cleanup + sourcecode release
+ - added 2nd statusline which shows remaining files, estimated time, etc.
+ - don't allow multiple instances of zipmax (was disabled in 0.32 by mistake)
+
+
+0.32
+
+ - fixed zip-extrafield problem
+ - added extra cache flush (needed for some PCs)
+ - added extra fullziptest before replacing old file
+
+
+0.31
+
+ - you can set the threadpriority (-> zipmax.ini)
+ - optional logfile creation (-> zipmax.ini)
+ - the close window button will pause the thread
+ - don't allow multiple instances of zipmax
+ - fixed minor quit problem
+
+0.30 - 0.10 nothing of real importance :O)

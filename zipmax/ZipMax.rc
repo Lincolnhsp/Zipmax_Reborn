@@ -1,0 +1,414 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\zipmax.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ZIPMAX_DIALOG DIALOGEX 0, 0, 333, 129
+STYLE DS_SETFONT | DS_SETFOREGROUND | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | 
+    WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_APPWINDOW
+CAPTION "ZipMax"
+MENU IDR_MAINMENU
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | WS_BORDER | 
+                    WS_TABSTOP,19,18,308,63
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",WS_BORDER,4,
+                    85,310,10
+    LTEXT           "",IDC_STATUS1,4,99,323,10,SS_SUNKEN
+    LTEXT           "",IDC_STATUS2,4,113,323,10,SS_SUNKEN
+    DEFPUSHBUTTON   "",IDC_BUTTON1,4,7,13,10,NOT WS_VISIBLE
+    PUSHBUTTON      "P",IDC_BUTTON_PAUSE,317,85,10,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu (the texts are translated at run time from the language files, see CZipMaxDlg::ApplyMenuLanguage)
+//
+
+IDR_MAINMENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "Add &Files...",               IDM_FILE_ADDFILES
+        MENUITEM "Add F&older...",              IDM_FILE_ADDFOLDER
+        MENUITEM "Add Folder with &Subfolders...", IDM_FILE_ADDFOLDERSUB
+        MENUITEM SEPARATOR
+        MENUITEM "&Clear List",                 IDM_FILE_CLEARLIST
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       IDM_FILE_EXIT
+    END
+    POPUP "&Settings"
+    BEGIN
+        MENUITEM "&Options (zipmax.ini)...",    IDM_SET_OPTIONS
+        MENUITEM "&Dialog Box...",              IDM_SET_VIEW
+        MENUITEM SEPARATOR
+        POPUP "&Language"
+        BEGIN
+            MENUITEM "English",                 IDM_LANG_FIRST
+        END
+    END
+    POPUP "&About"
+    BEGIN
+        MENUITEM "&About ZipMax Reborn...",     IDM_HELP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog: Settings > Options (zipmax.ini)
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 340, 248
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ZipMax Options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_OPT_NOTE,7,5,326,16
+    CONTROL         "",IDC_OPT_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | WS_BORDER | WS_TABSTOP,7,24,326,130
+    LTEXT           "Value:",IDC_OPT_VALUELABEL,7,160,40,8
+    EDITTEXT        IDC_OPT_VALUE,50,158,226,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_OPT_COMBO,50,158,226,80,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Browse...",IDC_OPT_BROWSE,280,157,53,14
+    LTEXT           "",IDC_OPT_HINT,7,177,326,24
+    PUSHBUTTON      "Add Packer",IDC_OPT_ADDPACKER,7,206,80,14
+    PUSHBUTTON      "Remove Last Packer",IDC_OPT_REMOVEPACKER,92,206,100,14
+    DEFPUSHBUTTON   "OK",IDOK,222,228,52,14
+    PUSHBUTTON      "Cancel",IDCANCEL,281,228,52,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog: Settings > Dialog Box
+//
+
+IDD_VIEWSETTINGS DIALOGEX 0, 0, 340, 206
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog Box Settings"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_VIEW_COLSLABEL,7,5,160,8
+    CONTROL         "",IDC_VIEW_COLS,"SysListView32",LVS_REPORT | LVS_NOCOLUMNHEADER | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | WS_BORDER | WS_TABSTOP,7,16,160,104
+    PUSHBUTTON      "Move Up",IDC_VIEW_COL_UP,7,124,78,14
+    PUSHBUTTON      "Move Down",IDC_VIEW_COL_DOWN,89,124,78,14
+    LTEXT           "",IDC_VIEW_ITEMSLABEL,173,5,160,8
+    CONTROL         "",IDC_VIEW_ITEMS,"SysListView32",LVS_REPORT | LVS_NOCOLUMNHEADER | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | WS_BORDER | WS_TABSTOP,173,16,160,104
+    PUSHBUTTON      "Move Up",IDC_VIEW_ITEM_UP,173,124,78,14
+    PUSHBUTTON      "Move Down",IDC_VIEW_ITEM_DOWN,255,124,78,14
+    LTEXT           "",IDC_VIEW_HINT,7,146,326,30
+    PUSHBUTTON      "Restore Defaults",IDC_VIEW_DEFAULTS,7,185,90,14
+    DEFPUSHBUTTON   "OK",IDOK,222,185,52,14
+    PUSHBUTTON      "Cancel",IDCANCEL,281,185,52,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog: About
+//
+
+IDD_ABOUT DIALOGEX 0, 0, 340, 232
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About ZipMax Reborn"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_ABOUT_TEXT,7,7,326,198,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,143,211,54,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,2,1,0
+ PRODUCTVERSION 1,2,1,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "ZipMax Reborn"
+            VALUE "FileVersion", "1, 2, 1, 0"
+            VALUE "InternalName", "ZipMax"
+            VALUE "LegalCopyright", "Copyright (C) 2002 - 2005 by Roman Scherzer. ZipMax Reborn uses 7-Zip, Copyright (C) Igor Pavlov"
+            VALUE "OriginalFilename", "ZipMax.exe"
+            VALUE "ProductName", "ZipMax Reborn"
+            VALUE "ProductVersion", "1, 2, 1, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ZIPMAX_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 327
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 123
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+// (manifest is merged by the linker/manifest tool: see ZipMax.vcxproj)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\zipmax.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_ARROW_DOWN          BITMAP                  "res\\down.bmp"
+IDB_ARROW_UP            BITMAP                  "res\\up.bmp"
+IDB_STATUS_RED          BITMAP                  "res\\red.bmp"
+IDB_STATUS_GREEN        BITMAP                  "res\\green.bmp"
+IDB_STATUS_YELLOW       BITMAP                  "res\\yellow.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ALREADYRUNNING      "ZipMax is already running !"
+    IDS_ANALYZE             "Analyzing File: "
+    IDS_CANTCLEANUP         "CAN'T CLEAN TEMPORARY-FOLDERS"
+    IDS_CANTCREATE          "CAN'T CREATE NEW ZIP"
+    IDS_CANTDETECT          "Can't detect: "
+    IDS_CANTREPLACE         "CAN'T REPLACE OLD ZIP"
+    IDS_DONEPERCENT         "Done: %d%%"
+    IDS_DROPFILES           "Drop some zipfiles..."
+    IDS_ERROR               "ERROR"
+    IDS_EXTERNAL            "External (%u of %u) Zipping File: "
+    IDS_EXTERNALFAIL        "EXTERNAL ZIPPING FAILED"
+    IDS_FILE                "File"
+    IDS_GAINEDBYTES         "Gained Free Bytes"
+    IDS_INIFILE             "zipmax.ini"
+    IDS_INTERNAL            "Internal Zipping File: "
+    IDS_INTERNALFAIL        "INTERNAL ZIPPING FAILED"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_INVALIDINI          "No or invalid "
+    IDS_LOGFILE             "zipmax.log"
+    IDS_OK                  "OK"
+    IDS_QUIT                "Quit Zipmax?"
+    IDS_PERCENTSAVEDBYTES   " (%.1f%%)"
+    IDS_REMAININGFILES      "Remaining Files: "
+    IDS_REMAININGTIME       "Est. Remaining Time: %02d:%02d:%02d"
+    IDS_SAVEDBYTES          "Saved Bytes: "
+    IDS_SEPARATOR           "  |  "
+    IDS_STATUS              "Status"
+    IDS_STOPQUESTION        "Do you really want to stop ?\n\nIf yes, ZipMax will finish the current file.\nAfter that you can close the program."
+    IDS_STRING_TITLE        ">ZipMax<"
+    IDS_TEMPEXTENSION       ".cm_t"
+    IDS_TEMPEXTENSION2      ".cm_old"
+    IDS_TEMPEXTERN          "_ext_%03u\\"
+    IDS_TEMPINTERN          "_intern\\"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_TEMPUNZIP           "_unzip\\"
+    IDS_TOTAL               "You saved %s bytes in total."
+    IDS_UNZIP               "Unzipping File: "
+    IDS_UNZIPFAIL           "UNZIPPING FAILED"
+    IDS_UPDATE              "Updating File: "
+    IDS_PAUSEACTIVE         "Pause Mode is active. Disable it and try again!"
+    IDS_PAUSETEXT           "Pausing..."
+    IDS_IDSARCHIVESET       "File skipped. It is marked for archive."
+    IDS_IDSREADONLYSET      "File skipped. It is marked read only."
+    IDS_SKIPPEDA            "SKIPPED-A"
+    IDS_SKIPPEDR            "SKIPPED-R"
+    IDS_7ZIPFAIL            "Can't start the 7-Zip engine: "
+    IDS_SIZEBEFORE          "Size Before"
+    IDS_SIZEAFTER           "Size After"
+    IDS_METHODINFO          "Type | Compression | Dictionary | Method"
+    IDS_INFODICT            "Dict: %s"
+    IDS_INFOMETHOD          "Method: %s"
+    IDS_MENU_FILE           "&File"
+    IDS_MENU_SETTINGS       "&Settings"
+    IDS_MENU_ABOUT          "&About"
+    IDS_MI_ADDFILES         "Add &Files..."
+    IDS_MI_ADDFOLDER        "Add F&older..."
+    IDS_MI_ADDFOLDERSUB     "Add Folder with &Subfolders..."
+    IDS_MI_CLEARLIST        "&Clear List"
+    IDS_MI_EXIT             "E&xit"
+    IDS_MI_OPTIONS          "&Options (zipmax.ini)..."
+    IDS_MI_VIEW             "&Dialog Box..."
+    IDS_MI_ABOUT            "&About ZipMax Reborn..."
+    IDS_FILTER_ZIP          "Zip files (*.zip)|*.zip|All files (*.*)|*.*||"
+    IDS_PICKFOLDER          "Select the folder with the zip files"
+    IDS_BUSY                "This is not available while ZipMax is zipping files."
+    IDS_NOZIPFOUND          "No zip files were found."
+    IDS_DLG_OPTIONS         "ZipMax Options"
+    IDS_DLG_VIEW            "Dialog Box Settings"
+    IDS_DLG_ABOUT           "About ZipMax Reborn"
+    IDS_OPT_COL_SETTING     "Setting"
+    IDS_OPT_COL_VALUE       "Value"
+    IDS_OPT_COL_KEY         "zipmax.ini key"
+    IDS_OPT_NOTE            "Check a box to turn a setting on, uncheck it to turn it off. The changes are saved to zipmax.ini."
+    IDS_OPT_HINT_BOOL       "Check or uncheck the box of the selected setting."
+    IDS_OPT_HINT_TEXT       "Type the value of the selected setting. It is only used while its box is checked."
+    IDS_OPT_WORKRECURSIVE   "Scan subfolders when a folder is dropped"
+    IDS_OPT_SKIPINTERN      "Skip the internal 7-Zip compression pass"
+    IDS_OPT_LOGFILE         "Write a log file (zipmax.log)"
+    IDS_OPT_NOBEEP          "Don't beep when finished"
+    IDS_OPT_SETCURRENTTIME  "New zip gets the current date/time (instead of keeping the original)"
+    IDS_OPT_SHOWPACKERWINDOW "Show the window of the external packers"
+    IDS_OPT_SKIPREADONLY    "Skip files marked read-only"
+    IDS_OPT_SKIPARCHIVE     "Skip files marked for archive"
+    IDS_OPT_SETCURRENTREADONLY "Mark the file being processed as read-only (distributed processing)"
+    IDS_OPT_PRIORITY        "Priority of the zipping thread"
+    IDS_OPT_LANGUAGE        "Program language"
+    IDS_OPT_SEVENZIPDLL     "Path of 7z.dll (internal zip engine)"
+    IDS_OPT_FINALEXE        "Final step: program run on every created zip"
+    IDS_OPT_FINALCMD        "Final step: command line (1 = zip file, 2 = *)"
+    IDS_OPT_PACKEREXE       "External packer %d: program"
+    IDS_OPT_PACKERCMD       "External packer %d: command line (1 = zip file, 2 = *)"
+    IDS_OPT_NEEDPACKER      "At least one external packer is required: an existing program and a command line that contains the placeholders for the zip file and for * (see zipmax.txt)."
+    IDS_OPT_SAVEFAIL        "Can't write zipmax.ini: "
+    IDS_OPT_BROWSE_FILTER   "Programs (*.exe;*.dll)|*.exe;*.dll|All files (*.*)|*.*||"
+    IDS_VIEW_COLUMNS        "Columns of the file list:"
+    IDS_VIEW_ITEMS          "Items of the window (top to bottom):"
+    IDS_VIEW_HINT           "Check the items you want to see and use the buttons to change their order. You can also drag the column headers in the window. The File column is always visible."
+    IDS_VI_PROGRESS         "Progress bar (classic) - the Pause button always stays"
+    IDS_VI_STATUS           "Current action text"
+    IDS_VI_SUMMARY          "Summary text (done, remaining files and time, saved bytes)"
+    IDS_VI_TOTALBAR         "Total progress bar (green)"
+    IDS_ABOUT_TEXT          "ZipMax Reborn is a modern version of ZipMax 0.51 (originally by Roman Scherzer, 2002-2005). It keeps everything ZipMax did - re-compress zip files with several packers and keep the smallest result of each file - on a modern, maintained foundation.\n\nIMPROVEMENTS (newest first)\n\nVersion 1.2.1\n- Settings > Language: choose the language of the program straight from the menu (English and Portugues (Brasil) are included; any file added to the language folder shows up in the list).\n\nVersion 1.2.0\n- Menu bar: File, Settings and About.\n- File menu: choose one file, several files or a folder (with or without subfolders) to process.\n- Settings > Options: every zipmax.ini parameter with a checkbox (and a text or a choice for those that need a value), saved to zipmax.ini.\n- Settings > Dialog Box: choose which columns and items the window shows and in which order. The original look is the default.\n- This About box.\n\nVersion 1.1.0\n- Full Unicode support (file names in any language, e.g. Japanese).\n- Language files (language folder): English and Portugues (Brasil).\n- Green total progress bar with the percentage inside.\n- New columns: Size Before, Size After and Type | Compression | Dictionary | Method.\n- More robust cleanup of the temporary folders.\n\nVersion 1.0.0\n- The ZipArchive library was replaced by 7-Zip (7z.dll or linked statically into ZipMax.exe).\n- Builds with Visual Studio 2026 (x64 and Win32).\n\nOriginal ZipMax 0.51: Copyright (C) 2002-2005 Roman Scherzer.\nZipMax Reborn uses 7-Zip, Copyright (C) Igor Pavlov (GNU LGPL)."
+    IDS_MENU_LANGUAGE       "&Language"
+    IDS_LANGNAME            "English"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\zipmax.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
