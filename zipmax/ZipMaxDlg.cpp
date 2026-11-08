@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <map>
 #include <new>
+#include <exception>
 #include <string>
 
 #define DATABUFFERSIZE 8*1024*1024	// buffersize for WriteLFH(...) 8 MB
@@ -419,8 +420,8 @@ BOOL CZipMaxDlg::InternalZipFiles(const CString& strArchiveName, const CString& 
 	if ((n == 0) && (pApp->g_strFinalExe != _T("")))
 	{
 		CString strCommand = pApp->g_strFinalCommandLine;
-		strCommand.Replace(_T("%1"), _T('\"') + strArchiveName + _T('\"'));
 		strCommand.Replace(_T("%2"), _T("*"));
+		strCommand.Replace(_T("%1"), _T('\"') + strArchiveName + _T('\"'));
 		n = CMisc::RunCmd(pApp->g_strFinalExe + _T(" ") + strCommand, GetThreadPriority(), pApp->g_bShowPackerWindow, &pApp->g_pi);
 	}
 
@@ -453,8 +454,8 @@ BOOL CZipMaxDlg::ExternalZipFiles(const CString& strArchiveName, const CString& 
 	// replace the commandline options with the current values
 
 	CString strCommand = pApp->g_strCommandLine[nExternal];
+	strCommand.Replace(_T("%2"), _T("*"));					// (%2 first: a "%2" inside the zip name must stay as it is)
 	strCommand.Replace(_T("%1"), _T('\"') + strArchiveName + _T('\"'));
-	strCommand.Replace(_T("%2"), _T("*"));
 
 
 	// run the external packer
@@ -465,8 +466,8 @@ BOOL CZipMaxDlg::ExternalZipFiles(const CString& strArchiveName, const CString& 
 	if ((n == 0) && (pApp->g_strFinalExe != _T("")))
 	{
 		strCommand = pApp->g_strFinalCommandLine;
-		strCommand.Replace(_T("%1"), _T('\"') + strArchiveName + _T('\"'));
 		strCommand.Replace(_T("%2"), _T("*"));
+		strCommand.Replace(_T("%1"), _T('\"') + strArchiveName + _T('\"'));
 		n = CMisc::RunCmd(pApp->g_strFinalExe + _T(" ") + strCommand, GetThreadPriority(), pApp->g_bShowPackerWindow, &pApp->g_pi);
 	}
 
@@ -1083,6 +1084,39 @@ void CZipMaxDlg::UpdateStatus(CStatic *pStatus, const DWORD nIndex, const DWORD 
 
 UINT CZipMaxDlg::WorkThread(LPVOID pParam)
 {
+	// Entry point of the worker thread. The real work is in WorkThreadBody(); here an unexpected C++ exception
+	// is caught, so that the program does not just vanish: the thread ends, the window is released and the
+	// status line says ERROR.
+
+	try
+	{
+		return WorkThreadBody(pParam);
+	}
+	catch (CException *e)
+	{
+		e->Delete();
+	}
+	catch (std::exception&)
+	{
+	}
+	catch (...)
+	{
+	}
+
+	THREADPARAM *p = (THREADPARAM *)pParam;
+	CZipMaxApp *pApp = (CZipMaxApp *)AfxGetApp();
+
+	pApp->g_bThreadRunning = FALSE;
+
+	if (p != NULL && p->pStatus1 != NULL)
+		p->pStatus1->SetWindowText(CLang::Get(IDS_ERROR));
+
+	return 1;
+}
+
+
+UINT CZipMaxDlg::WorkThreadBody(LPVOID pParam)
+{
 	// Main Zipping thread. Anything is done here :O)
 	// I know it should be a lot smaller....more subroutines etc...
 
@@ -1105,7 +1139,11 @@ UINT CZipMaxDlg::WorkThread(LPVOID pParam)
 	t = CLang::Get(IDS_TEMPEXTERN);
 	DWORD x;
 	for (x = 0; x < pApp->g_dwNumExtern; x++)
-		strExternFolder[x].Format(*(p->pstrMainFolder) + t, x + 1);
+	{
+		CString strFolderName;
+		strFolderName.Format(t, x + 1);							// (the program folder is not part of the format string)
+		strExternFolder[x] = *(p->pstrMainFolder) + strFolderName;
+	}
 
 	t = CLang::Get(IDS_TEMPINTERN);
 	const CString strInternFolder = *(p->pstrMainFolder) + t;
@@ -1280,7 +1318,10 @@ UINT CZipMaxDlg::WorkThread(LPVOID pParam)
 						if (pApp->g_bStop)
 							break;
 
-						strStatus.Format(q + CMisc::GetPureFileName(strSource), x + 1, pApp->g_dwNumExtern);
+						// (only the fixed text is a format string: a file name may contain "%" - e.g. "[T+Bra100%_Name].zip" -
+						// and a "%_" inside a format string makes the C runtime abort the whole program)
+						strStatus.Format(q, x + 1, pApp->g_dwNumExtern);
+						strStatus += CMisc::GetPureFileName(strSource);
 						p->pStatus1->SetWindowText(strStatus);
 
 						if (! ExternalZipFiles(strExternFile[x], strUnzipFolder, &vecHeadersExtern[x], x))

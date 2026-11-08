@@ -188,8 +188,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,1,0
- PRODUCTVERSION 1,2,1,0
+ FILEVERSION 1,2,2,0
+ PRODUCTVERSION 1,2,2,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -205,12 +205,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "ZipMax Reborn"
-            VALUE "FileVersion", "1, 2, 1, 0"
+            VALUE "FileVersion", "1, 2, 2, 0"
             VALUE "InternalName", "ZipMax"
             VALUE "LegalCopyright", "Copyright (C) 2002 - 2005 by Roman Scherzer. ZipMax Reborn uses 7-Zip, Copyright (C) Igor Pavlov"
             VALUE "OriginalFilename", "ZipMax.exe"
             VALUE "ProductName", "ZipMax Reborn"
-            VALUE "ProductVersion", "1, 2, 1, 0"
+            VALUE "ProductVersion", "1, 2, 2, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -380,7 +380,7 @@ BEGIN
     IDS_VI_STATUS           "Current action text"
     IDS_VI_SUMMARY          "Summary text (done, remaining files and time, saved bytes)"
     IDS_VI_TOTALBAR         "Total progress bar (green)"
-    IDS_ABOUT_TEXT          "ZipMax Reborn is a modern version of ZipMax 0.51 (originally by Roman Scherzer, 2002-2005). It keeps everything ZipMax did - re-compress zip files with several packers and keep the smallest result of each file - on a modern, maintained foundation.\n\nIMPROVEMENTS (newest first)\n\nVersion 1.2.1\n- Settings > Language: choose the language of the program straight from the menu (English and Portugues (Brasil) are included; any file added to the language folder shows up in the list).\n\nVersion 1.2.0\n- Menu bar: File, Settings and About.\n- File menu: choose one file, several files or a folder (with or without subfolders) to process.\n- Settings > Options: every zipmax.ini parameter with a checkbox (and a text or a choice for those that need a value), saved to zipmax.ini.\n- Settings > Dialog Box: choose which columns and items the window shows and in which order. The original look is the default.\n- This About box.\n\nVersion 1.1.0\n- Full Unicode support (file names in any language, e.g. Japanese).\n- Language files (language folder): English and Portugues (Brasil).\n- Green total progress bar with the percentage inside.\n- New columns: Size Before, Size After and Type | Compression | Dictionary | Method.\n- More robust cleanup of the temporary folders.\n\nVersion 1.0.0\n- The ZipArchive library was replaced by 7-Zip (7z.dll or linked statically into ZipMax.exe).\n- Builds with Visual Studio 2026 (x64 and Win32).\n\nOriginal ZipMax 0.51: Copyright (C) 2002-2005 Roman Scherzer.\nZipMax Reborn uses 7-Zip, Copyright (C) Igor Pavlov (GNU LGPL)."
+    IDS_ABOUT_TEXT          "ZipMax Reborn is a modern version of ZipMax 0.51 (originally by Roman Scherzer, 2002-2005). It keeps everything ZipMax did - re-compress zip files with several packers and keep the smallest result of each file - on a modern, maintained foundation.\n\nIMPROVEMENTS (newest first)\n\nVersion 1.2.2\n- Fixed a crash that closed the program without any message when a zip file name contains the % character (for example ""[T+Bra100%_Name].zip""). The worker thread is now also protected against unexpected errors.\n\nVersion 1.2.1\n- Settings > Language: choose the language of the program straight from the menu (English and Portugues (Brasil) are included; any file added to the language folder shows up in the list).\n\nVersion 1.2.0\n- Menu bar: File, Settings and About.\n- File menu: choose one file, several files or a folder (with or without subfolders) to process.\n- Settings > Options: every zipmax.ini parameter with a checkbox (and a text or a choice for those that need a value), saved to zipmax.ini.\n- Settings > Dialog Box: choose which columns and items the window shows and in which order. The original look is the default.\n- This About box.\n\nVersion 1.1.0\n- Full Unicode support (file names in any language, e.g. Japanese).\n- Language files (language folder): English and Portugues (Brasil).\n- Green total progress bar with the percentage inside.\n- New columns: Size Before, Size After and Type | Compression | Dictionary | Method.\n- More robust cleanup of the temporary folders.\n\nVersion 1.0.0\n- The ZipArchive library was replaced by 7-Zip (7z.dll or linked statically into ZipMax.exe).\n- Builds with Visual Studio 2026 (x64 and Win32).\n\nOriginal ZipMax 0.51: Copyright (C) 2002-2005 Roman Scherzer.\nZipMax Reborn uses 7-Zip, Copyright (C) Igor Pavlov (GNU LGPL)."
     IDS_MENU_LANGUAGE       "&Language"
     IDS_LANGNAME            "English"
 END

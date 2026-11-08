@@ -17,7 +17,7 @@ THINGS TO DO:
 3) Build -> Build Solution.
    The result is in build\<platform>\<configuration>\ZipMax.exe
 
-The 7-Zip 26.04 sources needed by the build are already included in the "7zip"
+The 7-Zip 26.05 sources needed by the build are already included in the "7zip"
 folder. To use another copy of the 7-Zip sources, pass
 /p:SevenZipDir=<folder that contains C and CPP>\ to MSBuild.
 

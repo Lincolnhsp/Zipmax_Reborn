@@ -39,6 +39,9 @@ Fora de `zipmax\`: `language\` (idiomas), `7zip\` (fontes do 7-Zip usados no bui
 - **Unicode (UTF-16)** em todo o programa: use `CString`, `TCHAR`, `_T("...")` e as funções `W`/`T` do Windows.
   Nada de `char`/`LPSTR` para nomes de arquivo (é o que quebrava nomes japoneses). Só `ZipHeader::rawName` é
   `std::string`, porque são bytes crus do zip.
+- **Nunca coloque nome de arquivo, pasta ou qualquer texto do usuário dentro de uma string de formato**
+  (`CString::Format`, `printf`...). Nomes como `[T+Bra100%_Nome].zip` têm `%`, e o runtime do C moderno aborta o
+  programa (`0xC0000409`) ao achar um `%_` inválido. Faça `str.Format(textoFixo, ...); str += nome;`.
 - **Todo texto visível ao usuário é traduzível** (veja 4.1). Não escreva texto fixo em inglês no código.
 - Configuração do **processamento** (empacotadores, flags) fica no `zipmax.ini`; configuração da **aparência**
   (larguras, colunas, itens, posição da janela) fica no registro (`HKCU\Software\ZipMax`).

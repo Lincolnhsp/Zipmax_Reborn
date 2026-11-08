@@ -3,6 +3,13 @@
 Formato: versão, e o que mudou (do mais novo para o mais antigo). **Ao implementar uma melhoria, acrescente-a aqui
 e ao texto da caixa Sobre** (`IDS_ABOUT_TEXT` em `zipmax\ZipMax.rc` e em `language\*.lng`).
 
+## 1.2.2
+- **Correção de falha:** o programa fechava sem mensagem quando o nome de um zip tinha o caractere `%` (ex.:
+  `[T+Bra100%_Nome].zip`). O nome do arquivo estava dentro do texto de formato de `CString::Format`, e o `%_` fazia o
+  runtime do C abortar o processo (`0xC0000409`, `__fastfail(5)`). Agora só o texto fixo é formato e o nome é anexado depois.
+- Linha de comando dos empacotadores: `%2` é trocado antes de `%1`, para que um `%2` dentro do nome do zip não seja alterado.
+- A thread de trabalho passou a capturar exceções inesperadas (o programa não some; a linha de status mostra ERROR).
+
 ## 1.2.1
 - Configurações > **Idioma**: escolha do idioma direto no menu (English e Português (Brasil) acompanham o programa).
   A lista é montada com os arquivos da pasta `language`, o idioma em uso fica marcado, a troca vale na hora e é

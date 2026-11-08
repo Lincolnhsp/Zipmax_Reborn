@@ -5,5 +5,5 @@
 
 #pragma once
 
-#define ZIPMAX_REBORN_VERSION		_T("1.2.1")
+#define ZIPMAX_REBORN_VERSION		_T("1.2.2")
 #define ZIPMAX_ORIGINAL_VERSION		_T("0.51")

@@ -119,7 +119,8 @@ class CZipMaxDlg : public CDialog
 
 		static int GetThreadPriority();
 
-		static UINT WorkThread(LPVOID pParam);	// the main thread routine
+		static UINT WorkThread(LPVOID pParam);			// entry point of the thread (catches unexpected exceptions)
+		static UINT WorkThreadBody(LPVOID pParam);		// the main thread routine
 
 		static BOOL WriteLFH(CStdioFile *pFile, CZipEntry *pZipEntry, DWORD *pOffset, CString *pName);
 		static BOOL WriteCFH(CStdioFile *pFile, CZipEntry *pZipEntry, const DWORD nOffset);

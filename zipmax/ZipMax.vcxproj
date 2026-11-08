@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32"><Configuration>Release</Configuration><Platform>Win32</Platform></ProjectConfiguration>
-    <ProjectConfiguration Include="Release Static|Win32"><Configuration>Release Static</Configuration><Platform>Win32</Platform></ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
-    <ProjectConfiguration Include="Release Static|x64"><Configuration>Release Static</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Static|Win32">
+      <Configuration>Release Static</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Static|x64">
+      <Configuration>Release Static</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
@@ -87,7 +105,8 @@
     </Link>
     <PostBuildEvent>
       <Message>Copying the language files (and zipmax.ini, if missing) next to ZipMax.exe...</Message>
-      <Command>xcopy /Y /I /E /Q "$(SolutionDir)language" "$(OutDir)language" &gt;nul&#x0D;&#x0A;if not exist "$(OutDir)zipmax.ini" copy /Y "$(SolutionDir)zipmax.ini" "$(OutDir)zipmax.ini" &gt;nul</Command>
+      <Command>xcopy /Y /I /E /Q "$(SolutionDir)language" "$(OutDir)language" &gt;nul
+if not exist "$(OutDir)zipmax.ini" copy /Y "$(SolutionDir)zipmax.ini" "$(OutDir)zipmax.ini" &gt;nul</Command>
     </PostBuildEvent>
     <ResourceCompile>
       <Culture>0x0409</Culture>
@@ -190,6 +209,40 @@
     <Link>
       <AdditionalOptions>/WHOLEARCHIVE:"$(OutDir)Zip7Engine.lib" %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <ClCompile>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">AnySuitable</InlineFunctionExpansion>
+    </ClCompile>
+    <ClCompile>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">true</IntrinsicFunctions>
+    </ClCompile>
+    <ClCompile>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <ClCompile>
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">true</EnableFiberSafeOptimizations>
+    </ClCompile>
+    <ClCompile>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">true</WholeProgramOptimization>
+      <EnableParallelCodeGeneration Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <ClCompile>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release Static|x64'">AnySuitable</InlineFunctionExpansion>
+    </ClCompile>
+    <ClCompile>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release Static|x64'">true</IntrinsicFunctions>
+    </ClCompile>
+    <ClCompile>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release Static|x64'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <ClCompile>
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release Static|x64'">true</EnableFiberSafeOptimizations>
+    </ClCompile>
+    <ClCompile>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Release Static|x64'">true</WholeProgramOptimization>
+      <EnableParallelCodeGeneration Condition="'$(Configuration)|$(Platform)'=='Release Static|x64'">true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release Static|x64'">AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AboutDlg.h" />
@@ -212,13 +265,17 @@
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="GreenProgress.cpp" />
-    <ClCompile Include="IniFile.cpp"><PrecompiledHeader>NotUsing</PrecompiledHeader></ClCompile>
+    <ClCompile Include="IniFile.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Language.cpp" />
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="OptionsDlg.cpp" />
     <ClCompile Include="ViewConfig.cpp" />
     <ClCompile Include="ViewSettingsDlg.cpp" />
-    <ClCompile Include="stdafx.cpp"><PrecompiledHeader>Create</PrecompiledHeader></ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ZipMax.cpp" />
     <ClCompile Include="ZipMaxDlg.cpp" />
   </ItemGroup>
