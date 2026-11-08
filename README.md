@@ -1,15 +1,47 @@
-# ZipMax Reborn (ZipMax 0.51 + 7-Zip 26.04)
+# <u>ZipMax Reborn</u>
 
-ZipMax 0.51 de Roman Scherzer, refatorado para compilar no **Visual Studio 2026**.
-A biblioteca **ZipArchive** (que sumiu da internet) foi **removida** e todo o trabalho com ZIP
-que ela fazia agora é feito pelo **7-Zip**.
+Modernização do software de recompactação e otimização - ZipMax (base da versão 0.51).<br>
+Troca do engine de compactação do ZipArchive, para o 7zip (código aberto e livre)
 
-## Versão 1.2.1 - escolha do idioma no menu
+## <u>Breve Histórico</u>
+Sempre utilizei um software gratuito e de código aberto de Roman Scherzer para economizar espaço na HD. </br>Original em: [Zipmax](https://mamedev.emulab.it/clrmamepro/#zipmax)</br>
+
+Descobri o mesmo ao organizar coleções de ROMS, posteriormente foi útil pra tudo...<br>(arquivos de MID ou Wav compactados, Docs, Planilhas, ISOs...)</br>
+Com as modernizações de sistema operacional, o programa começou a dar problemas, parando no meio da compactação de ISOs, deixando pastas temporárias, fechando ou travando do nada.
+
+Fui atrás do código fonte, e por utilizar um componente do ZipArchive não conseguia de jeito nenhum corrigir e compilar para ver se os problemas paravam (principalmente com arquivos de nomes longos ou que utilizavam caracteres japoneses ou especiais).
+
+Com o advento do Claude, DeepSeek, Qwen, finalmente consegui por em prática algumas idéias e melhorias, dentre elas:
+
+1) Eliminar dependência do ZipArchive, utilizando o software livre 7zip (de código aberto)
+2) Eliminar os bugs de recompactação de arquivos que possuiam caracteres especiais, em japonês ou chinês (ROMS, sobretudo)
+3) Inserir arquivos e configurações em um menu da própria aplicação</br>
+4) Configurar o INI por menu e não por edição de arquivo.
+### Arquivos e configurações
+<img width="705" height="181" alt="image" src="https://github.com/user-attachments/assets/18a2c6a9-2be9-451e-bff1-09be5521daf1" /> </br>
+<img width="701" height="136" alt="image" src="https://github.com/user-attachments/assets/7ac2d244-954d-48a5-b547-1dbe1d3ecf2c" /></br>
+5) Permitir parametrização da caixa de diálogo, com opções de tamanho antes, depois, etc..
+<img width="508" height="362" alt="image" src="https://github.com/user-attachments/assets/7d600f61-b637-41af-a5e8-0e49ae0072e6" /></br>
+6) Escolha do idioma via menu, sem ter que editar o INI
+<img width="703" height="150" alt="image" src="https://github.com/user-attachments/assets/713422aa-0ce8-440e-849e-7e4576be07f9" /></br>
+7) Documentar e criar um histórico interno (será repensado futuramente).
+<img width="501" height="337" alt="image" src="https://github.com/user-attachments/assets/6be86417-d852-427e-ab52-69b0c2dcbe3e" /></br>
+
+
+Não sou expert de programação (entendo apenas de arquivos em .BAT, HTML5, CSS e muito pouco Javascript).</br>
+Porém foi possível compilar o projeto em Visual Studio 2026, com flags de otimizações e em AVX2.
+<img width="708" height="443" alt="image" src="https://github.com/user-attachments/assets/f45330de-0752-4847-af9d-c4a7e2c4bcad" /></br>
+Até agora... funcionou sem problemas!</br>
+
+O uso desse programa fica por sua conta e risco!</br>
+Espero que seja útil pra alguém, em uma época onde SSD/M2 e RAM estão a preço de ouro.
+
+# Mudanças das últimas 3 versões:
+## Versão 1.2.1 - Escolha do idioma no menu
 
 * **Configurações > Idioma:** lista os idiomas disponíveis (English e Português (Brasil)), marca o que está em uso e
-  troca na hora, sem reiniciar. A escolha é gravada no `zipmax.ini` (`language = ...`). Para adicionar um idioma,
-  coloque um `.lng` na pasta `language` com a chave `IDS_LANGNAME` (nome exibido): ele aparece na lista sozinho.
-  A troca fica indisponível enquanto o ZipMax está compactando.
+  troca na hora, sem reiniciar. A escolha é gravada no `zipmax.ini` (`language = ...`).<br>Para adicionar um idioma, coloque um `.lng` na pasta `language` com a chave `IDS_LANGNAME` (nome exibido): ele aparece na lista sozinho. A troca fica indisponível enquanto o ZipMax está compactando.
+* **Bug de fechamento inesperado:** quando o arquivo a ser compactado possuia %_ em seu nome ou sequências específicas, o programa fechava sem nenhum aviso, interrompendo o trabalho. Gerava um dump na pasta Users\Roaming. Através dele implementamos as correções.
 
 ## Versão 1.2.0 - menus e configurações
 
@@ -24,7 +56,7 @@ que ela fazia agora é feito pelo **7-Zip**.
   e em que ordem (botões Mover para cima/baixo; também dá para arrastar os títulos das colunas). **O padrão é o visual
   original do ZipMax**: Size Before, Size After, as informações do método e a barra verde começam desligados, é só marcá-los.
 * **Sobre:** descreve o ZipMax Reborn e lista as melhorias de cada versão.
-* **Documentação para evoluir o programa:** `docs\DEVELOPMENT.md` (arquitetura e receitas: texto traduzível, coluna,
+* **Criação de documentação para evoluir o programa:** `docs\DEVELOPMENT.md` (arquitetura e receitas: texto traduzível, coluna,
   item da janela, parâmetro do .ini, menu) e `docs\CHANGELOG.md`.
 
 ## Versão 1.1.0
@@ -57,14 +89,14 @@ que ela fazia agora é feito pelo **7-Zip**.
 
 3. *Build → Build Solution*. Saída: `build\<plataforma>\<configuração>\ZipMax.exe`.
 
-Os fontes do 7-Zip 26.04 necessários já estão na pasta `7zip\`. Para usar outra cópia:
+Os fontes do 7-Zip 26.05 necessários já estão na pasta `7zip\`. Para usar outra cópia:
 `msbuild ZipMax.sln /p:SevenZipDir=C:\caminho\7zip\` (a pasta que contém `C` e `CPP`).
 
 ### Para executar
 * Copie o `zipmax.ini` para a pasta do `ZipMax.exe`.
 * Modos DLL: coloque o `7z.dll` (mesma arquitetura do exe) na pasta do ZipMax, ou instale o 7-Zip
   (a pasta padrão é procurada), ou use a nova chave opcional `sevenzip-dll = C:\...\7z.dll` no ini.
-* O empacotador externo (`7za.exe` por padrão) continua funcionando como antes.
+* O empacotador externo e outros opcionais do INI (`7za.exe` por padrão) continuam funcionando como antes.
 
 ## O que mudou
 
@@ -91,12 +123,9 @@ decodificados (UTF-8 ou OEM) e com `\` = `/`, o que evita falsos "erros" com nom
 (`l.deu`) e sem o manifesto duplicado, novo `.sln/.vcxproj` (VS 2026, toolset padrão do VS instalado),
 ganho calculado com sinal, verificação de leituras curtas ao copiar fluxos, recusa de ZIP64 e multi-volume.
 
-## Estado dos testes (leia isto)
+## Estado dos testes:
 
-* **Não havia Visual Studio disponível onde isto foi feito.** Os arquivos MFC (`ZipMaxDlg`, `ZipMax`, `misc`,
-  `.rc`) e os `.vcxproj` **não foram compilados**; foram revisados à mão. Se aparecer algum erro de compilação
-  ao abrir no VS 2026, me envie a mensagem que eu corrijo.
-* **Testado de verdade (Linux, g++, 7-Zip 26.04):** a camada `Zip7Engine` nos dois modos (7z.so via `dlopen` e
+* **Testado de verdade (Linux, g++, 7-Zip 26.05):** a camada `Zip7Engine` nos dois modos (7z.so via `dlopen` e
   7-Zip ligado estaticamente, usando exatamente a lista de arquivos do `Release Static`): criar, extrair, testar,
   ler cabeçalhos, ZIP corrompido, "zip slip", nomes UTF-8 e com `\`, e a montagem do ZIP final por cópia de
   fluxos (conferido com o `zipfile` do Python). Fontes em `tests\` (`test_engine.cpp` e `test_inifile.cpp`, este último também testa a gravação do `zipmax.ini` com os comentários preservados).
@@ -104,3 +133,11 @@ ganho calculado com sinal, verificação de leituras curtas ao copiar fluxos, re
   (menu e três diálogos) **não foram compilados**. Só a leitura/gravação do `.ini` (`IniFile`) foi testada de verdade (Linux).
 * Itens de risco a observar no primeiro build: a conversão para Unicode (muitos literais viraram `_T("...")`) e
   o novo controle `GreenProgress`.
+
+# Disclaimer
+Todos os direitos reservados aos criadores (fique claro que em nenhum momento tomo crédito do trabalho deles):</br>
+Zipmax - Roman Scherzer (https://mamedev.emulab.it/clrmamepro/#zipmax)</br>
+7Zip - Igor Pavlov (https://www.7-zip.org)
+
+Modernização e features da versão 1.1.0 em diante:</br>
+Zipmax Reborn - Lincoln H.
